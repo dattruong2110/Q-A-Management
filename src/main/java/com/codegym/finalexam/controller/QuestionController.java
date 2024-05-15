@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -42,6 +43,14 @@ public class QuestionController {
     public String createBook(Question question) {
         questionService.save(question);
         return "redirect:/questions";
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView showQuestion(@PathVariable UUID id) {
+        ModelAndView modelAndView = new ModelAndView("Question/InfoQuestion");
+        modelAndView.addObject("questions", questionService.findById(id));
+        modelAndView.addObject("question_types", questionTypeService.findAll());
+        return modelAndView;
     }
 
     @GetMapping("/update/{id}")

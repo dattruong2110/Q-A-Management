@@ -5,15 +5,14 @@
 <nav th:replace="~{/index :: navbar}"></nav>
 
 <div class="container">
-  <h1>Update Question</h1>
-  <a class="btn btn-primary" th:href="@{/questions}" style="margin: 0 0 10px;">Back</a>
+  <h1>Cập nhật câu hỏi</h1>
   <form th:action="@{/questions/update/{id}(id=${question.id})}" method="post" th:object="${question}">
     <div class="mb-3">
-      <label for="title" class="form-label">Title</label>
+      <label for="title" class="form-label">Tiêu đề</label>
       <input type="text" class="form-control" id="title" name="title" th:field="*{title}">
     </div>
     <div class="mb-3">
-      <label for="author" class="form-label">Author</label>
+      <label for="author" class="form-label">Loại câu hỏi</label>
       <select class="form-control" id="author" name="author" th:field="*{question_type}">
         <option th:each="question_type : ${question_types}" th:value="${question_type.id}" th:text="${question_type.name}"></option>
       </select>
@@ -26,7 +25,8 @@
       <label for="status" class="form-label">Tình trạng</label>
       <input type="text" class="form-control" id="status" name="status" th:field="*{status}">
     </div>
-    <button type="submit" class="btn btn-success">Submit</button>
+    <a class="btn btn-secondary" th:href="@{/questions}">Hủy</a>
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
   </form>
 </div>
 </body>

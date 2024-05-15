@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{index :: head}"></head>
+<body>
+<nav th:replace="~{/index :: navbar}"></nav>
+
+<div class="container" style="margin-top: 10px">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px">
+        <a class="btn btn-primary" th:href="@{/questions}">Quay lại</a>
+        <h4 style="margin: 0 auto">Xem chi tiết câu hỏi</h4>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tiêu đề</th>
+            <th scope="col">Loại câu hỏi</th>
+            <th scope="col">Nội dung</th>
+            <th scope="col">Ngày đăng</th>
+            <th scope="col">Tình trạng</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question, index : ${questions}" th:data-id="${question.id}" th:data-title="${question.title}"
+            th:data-type="${question.question_type.name}" th:data-date="${question.date_create}"
+            th:data-status="${question.status}" th:data-content="${question.content}"
+            data-bs-toggle="modal" data-bs-target="#viewQuestionModal"
+            onclick="viewQuestion(this)">
+            <th scope="row" th:text="${index.count}"></th>
+            <td th:text="${question.title}"></td>
+            <td th:text="${question.question_type.name}"></td>
+            <td th:text="${question.content}"></td>
+            <td th:text="${question.date_create}"></td>
+            <td th:text="${question.status}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
