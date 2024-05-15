@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{index :: head}"></head>
+<body>
+<nav th:replace="~{/index :: navbar}"></nav>
+
+<div class="container" style="margin-top: 10px">
+  <div style="display: flex; align-items: center; margin-bottom: 10px">
+    <a th:href="@{/question-types/create}">
+      <button class="btn btn-primary">Create</button>
+    </a>
+    <h4 style="text-align: center; margin-left: 460px">Danh sách câu hỏi</h4>
+  </div>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">STT</th>
+      <th scope="col">Tên</th>
+      <th scope="col">Tính năng</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="question_type, index : ${question_types}">
+      <th scope="row" th:text="${index.count}"></th>
+      <td th:text="${question_type.name}"></td>
+      <td>
+        <button class="btn btn-danger" th:data-id="${question_type.id}" th:data-name="${question_type.name}"
+                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                onclick="deleteQuestionType(this.getAttribute('data-id'),this.getAttribute('data-name'))"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" id="btnEvent"></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function deleteQuestionType(id, name) {
+    document.getElementById('btnEvent').setAttribute('data-id', id);
+    document.getElementById('btnEvent').setAttribute('data-name', name);
+    document.getElementById('exampleModalLabel').innerText = 'Delete ' + name;
+    document.getElementById('modal-body').innerText = 'Do you want to delete ' + name + '?';
+    document.getElementById("btnEvent").innerText = 'Delete';
+    document.querySelector("#btnEvent").addEventListener('click', function () {
+      window.location.href = '/question-types/delete/' + id
+    })
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{index :: head}"></head>
+<body>
+<nav th:replace="~{/index :: navbar}"></nav>
+
+<div class="container" style="margin-top: 10px">
+    <div style="display: flex; align-items: center; margin-bottom: 10px">
+        <a th:href="@{/questions/create}">
+            <button class="btn btn-primary">Create</button>
+        </a>
+        <h4 style="text-align: center; margin-left: 460px">Danh sách câu hỏi</h4>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tiêu đề</th>
+            <th scope="col">Loại câu hỏi</th>
+            <th scope="col">Ngày đăng</th>
+            <th scope="col">Tình trạng</th>
+            <th scope="col">Tính năng</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question, index : ${questions}">
+            <th scope="row" th:text="${index.count}"></th>
+            <td th:text="${question.title}"></td>
+            <td th:text="${question.question_type.name}"></td>
+            <td th:text="${question.date_create}"></td>
+            <td th:text="${question.status}"></td>
+            <td>
+                <a th:href="@{/questions/update/{id}(id=${question.id})}" style="text-decoration: none;">
+                    <button class="btn btn-primary">
+                        Update
+                    </button>
+                </a>
+
+                <button class="btn btn-danger" th:data-id="${question.id}" th:data-name="${question.title}"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        onclick="deleteQuestion(this.getAttribute('data-id'),this.getAttribute('data-name'))"
+                >
+                    Delete
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="btnEvent"></button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function deleteQuestion(id, title) {
+        document.getElementById('btnEvent').setAttribute('data-id', id);
+        document.getElementById('btnEvent').setAttribute('data-name', title);
+        document.getElementById('exampleModalLabel').innerText = 'Delete ' + title;
+        document.getElementById('modal-body').innerText = 'Do you want to delete ' + title + '?';
+        document.getElementById("btnEvent").innerText = 'Delete';
+        document.querySelector("#btnEvent").addEventListener('click', function () {
+            window.location.href = '/questions/delete/' + id
+        })
+    }
+</script>
+</body>
+</html>
